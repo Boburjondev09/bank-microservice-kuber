@@ -1,0 +1,38 @@
+replicaCount: 1
+
+image:
+  repository: springboot-app
+  pullPolicy: IfNotPresent
+  tag: "1.0"
+
+# Порты
+containerPort: 7777
+servicePort: 7777
+
+config:
+  APP_ENV: "test"
+
+service:
+  type: ClusterIP
+
+ingress:
+  enabled: true
+  host: helmway.local
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
+
+livenessProbe:
+  path: /actuator/health
+  initialDelaySeconds: 30
+  periodSeconds: 10
+
+readinessProbe:
+  path: /actuator/health
+  initialDelaySeconds: 5
+  periodSeconds: 5

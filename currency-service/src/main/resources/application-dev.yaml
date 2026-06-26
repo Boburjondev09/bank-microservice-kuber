@@ -1,0 +1,36 @@
+server:
+  port: 5001
+
+spring:
+  application:
+    name: currency-service
+
+# ------ Database config -----
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/currency_db
+    username: arm7
+    password: arm7k@fk@!
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db.changelog/changelog-master.yaml
+#-----------------Eureka configuration. ------------
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+spring-doc:
+  api-docs:
+    path: /api-docs/currency
+  enable-native-support: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    disable-swagger-default-url: true
+    use-root-path: true

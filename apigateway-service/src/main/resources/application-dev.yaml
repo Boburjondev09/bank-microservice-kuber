@@ -1,0 +1,62 @@
+spring:
+  application:
+    name: apigateway-service
+
+  # 1. Enforce the reactive runtime environment for the gateway
+  main:
+    web-application-type: reactive
+
+  cloud:
+    config:
+      enabled: false
+
+    # 2. Automatically create routes for services registered in Eureka
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+
+# 3. Keep Feign timeout configurations if you have a custom fallback client
+feign:
+  client:
+    config:
+      my-client:
+        connectTimeout: 10000
+        readTimeout: 300000
+
+# 4. Fallback default zone targeting localhost for local host machine runs
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+# 5. Fixed tracking / Micrometer metrics for Grafana dashboard integration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,prometheus,metrics" # Secure fallback instead of exposing everything via *
+  endpoint:
+    prometheus:
+      enabled: true
+    health:
+      show-details: always
+  tracing:
+    sampling:
+      probability: 1.0
+
+server:
+  port: 5555
+
+---
+# 6. Profile specific override for Dockerized environment deployments
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka/

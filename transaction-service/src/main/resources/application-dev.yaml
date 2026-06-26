@@ -1,0 +1,8 @@
+
+spring:
+  application:
+    name: transaction-service
+server:
+  port: 5003
+
+
