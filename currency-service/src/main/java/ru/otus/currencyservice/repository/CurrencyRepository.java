@@ -10,7 +10,7 @@ import java.util.Optional;
  * @author: URUNOV Khamdamboy
  * @date 26.06.2026
  * @Project: currency-service
- * @description NITS PRODUCT
+ * @description PRODUCT
  */
 @Repository
 public interface CurrencyRepository extends JpaRepository<Currency, Long> {

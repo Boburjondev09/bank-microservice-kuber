@@ -1,13 +1,19 @@
 package ru.otus.currencyservice.aggregate.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author: URUNOV Khamdamboy
  * @date 26.06.2026
  * @Project: currency-service
- * @description NITS PRODUCT
+ * @description PRODUCT
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "country")
 public class Country {

@@ -18,7 +18,7 @@ import java.util.List;
  * @author: URUNOV Khamdamboy
  * @date 26.06.2026
  * @Project: currency-service
- * @description NITS PRODUCT
+ * @description PRODUCT
  */
 @Service
 public class CurrencyService implements CurrencyInterface {
@@ -54,14 +54,14 @@ public class CurrencyService implements CurrencyInterface {
                                 "Currency not found: " + code));
     }
 
+    @Transactional
     @Override
     public CurrencyDto save(CurrencyDto dto) {
         LOG.info("REQUEST: (save) : {} ", dto);
         Currency entity = mapper.toEntity(dto);
 
-        Currency saved = repository.save(entity);
-
-        return mapper.toDto(saved);
+        Currency savedEntity = repository.save(entity);
+        return mapper.toDto(savedEntity);
     }
 
     @Override

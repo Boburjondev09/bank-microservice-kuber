@@ -1,0 +1,212 @@
+[
+  {
+    "baseCurrency": {
+      "code": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "numericCode": 978,
+      "fractionDigits": 2,
+      "active": true
+    },
+    "targetCurrency": {
+      "code": "USD",
+      "name": "United States Dollar",
+      "symbol": "$",
+      "numericCode": 840,
+      "fractionDigits": 2,
+      "active": true
+    },
+    "rate": 1.0815,
+    "provider": "ECB_API",
+    "updatedAt": "2026-06-29T11:45:00"
+  },
+  {
+    "baseCurrency": {
+      "code": "USD",
+      "name": "United States Dollar",
+      "symbol": "$",
+      "numericCode": 840,
+      "fractionDigits": 2,
+      "active": true
+    },
+    "targetCurrency": {
+      "code": "GBP",
+      "name": "British Pound Sterling",
+      "symbol": "£",
+      "numericCode": 826,
+      "fractionDigits": 2,
+      "active": true
+    },
+    "rate": 0.7892,
+    "provider": "FIXER_IO",
+    "updatedAt": "2026-06-29T11:46:00"
+  },
+  {
+    "baseCurrency": {
+      "code": "USD",
+      "name": "United States Dollar",
+      "symbol": "$",
+      "numericCode": 840,
+      "fractionDigits": 2,
+      "active": true
+    },
+    "targetCurrency": {
+      "code": "RUB",
+      "name": "Russian Ruble",
+      "symbol": "₽",
+      "numericCode": 643,
+      "fractionDigits": 2,
+      "active": true
+    },
+    "rate": 87.4500,
+    "provider": "CBR_API",
+    "updatedAt": "2026-06-29T11:30:00"
+  },
+  {
+    "baseCurrency": {
+      "code": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "numericCode": 978,
+      "fractionDigits": 2,
+      "active": true
+    },
+    "targetCurrency": {
+      "code": "RUB",
+      "name": "Russian Ruble",
+      "symbol": "₽",
+      "numericCode": 643,
+      "fractionDigits": 2,
+      "active": true
+    },
+    "rate": 94.6200,
+    "provider": "CBR_API",
+    "updatedAt": "2026-06-29T11:30:00"
+  },
+  {
+    "baseCurrency": {
+      "code": "USD",
+      "name": "United States Dollar",
+      "symbol": "$",
+      "numericCode": 840,
+      "fractionDigits": 2,
+      "active": true
+    },
+    "targetCurrency": {
+      "code": "UZS",
+      "name": "Uzbekistan Som",
+      "symbol": "so'm",
+      "numericCode": 860,
+      "fractionDigits": 2,
+      "active": true
+    },
+    "rate": 12650.0000,
+    "provider": "CBU_UZ",
+    "updatedAt": "2026-06-29T11:00:00"
+  },
+  {
+    "baseCurrency": {
+      "code": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "numericCode": 978,
+      "fractionDigits": 2,
+      "active": true
+    },
+    "targetCurrency": {
+      "code": "UZS",
+      "name": "Uzbekistan Som",
+      "symbol": "so'm",
+      "numericCode": 860,
+      "fractionDigits": 2,
+      "active": true
+    },
+    "rate": 13680.0000,
+    "provider": "CBU_UZ",
+    "updatedAt": "2026-06-29T11:00:00"
+  },
+  {
+    "baseCurrency": {
+      "code": "USD",
+      "name": "United States Dollar",
+      "symbol": "$",
+      "numericCode": 840,
+      "fractionDigits": 2,
+      "active": true
+    },
+    "targetCurrency": {
+      "code": "AED",
+      "name": "UAE Dirham",
+      "symbol": "د.إ",
+      "numericCode": 784,
+      "fractionDigits": 2,
+      "active": true
+    },
+    "rate": 3.6725,
+    "provider": "XE_CURRENCY",
+    "updatedAt": "2026-06-29T11:50:00"
+  },
+  {
+    "baseCurrency": {
+      "code": "GBP",
+      "name": "British Pound Sterling",
+      "symbol": "£",
+      "numericCode": 826,
+      "fractionDigits": 2,
+      "active": true
+    },
+    "targetCurrency": {
+      "code": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "numericCode": 978,
+      "fractionDigits": 2,
+      "active": true
+    },
+    "rate": 1.1858,
+    "provider": "BOE_SERVICE",
+    "updatedAt": "2026-06-29T11:40:00"
+  },
+  {
+    "baseCurrency": {
+      "code": "USD",
+      "name": "United States Dollar",
+      "symbol": "$",
+      "numericCode": 840,
+      "fractionDigits": 2,
+      "active": true
+    },
+    "targetCurrency": {
+      "code": "KZT",
+      "name": "Kazakhstani Tenge",
+      "symbol": "₸",
+      "numericCode": 398,
+      "fractionDigits": 2,
+      "active": true
+    },
+    "rate": 465.2000,
+    "provider": "NATIONAL_BANK_KZ",
+    "updatedAt": "2026-06-29T10:15:00"
+  },
+  {
+    "baseCurrency": {
+      "code": "USD",
+      "name": "United States Dollar",
+      "symbol": "$",
+      "numericCode": 840,
+      "fractionDigits": 2,
+      "active": true
+    },
+    "targetCurrency": {
+      "code": "TRY",
+      "name": "Turkish Lira",
+      "symbol": "₺",
+      "numericCode": 949,
+      "fractionDigits": 2,
+      "active": true
+    },
+    "rate": 32.8400,
+    "provider": "TCMB_PROVIDER",
+    "updatedAt": "2026-06-29T11:52:00"
+  }
+]

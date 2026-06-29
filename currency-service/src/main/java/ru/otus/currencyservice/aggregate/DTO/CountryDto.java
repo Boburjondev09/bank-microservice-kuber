@@ -9,7 +9,7 @@ import ru.otus.currencyservice.aggregate.entity.Currency;
  * @author: URUNOV Khamdamboy
  * @date 26.06.2026
  * @Project: currency-service
- * @description NITS PRODUCT
+ * @description PRODUCT
  */
 @Data
 @Builder
@@ -18,5 +18,5 @@ public class CountryDto {
     private String iso2;
     private String iso3;
     private String name;
-    private Currency currency;
+    private CurrencyDto currency;
 }

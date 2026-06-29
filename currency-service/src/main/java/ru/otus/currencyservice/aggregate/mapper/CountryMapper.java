@@ -13,9 +13,9 @@ import java.util.List;
  * @author: URUNOV Khamdamboy
  * @date 26.06.2026
  * @Project: currency-service
- * @description NITS PRODUCT
+ * @description PRODUCT
  */
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {CurrencyMapper.class})
 public interface CountryMapper {
 
     CountryDto toDto(Country entity);
@@ -28,5 +28,4 @@ public interface CountryMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntity(CountryDto dto, @MappingTarget Country entity);
-
 }

@@ -1,0 +1,8 @@
+# Connection postgresql
+docker exec -it postgredb-service psql -U arm7 -d currency_db
+
+# Checking database
+SELECT * FROM currency
+
+# Database
+SELECT * FROM currency;
