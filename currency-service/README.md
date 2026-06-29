@@ -69,6 +69,10 @@ deployment/helm/currency-app/
 Для анализа использования ресурсов (памяти кучи, метапространства, активности потоков приложения) используется VisualVM. 
 Подключение к поду Kubernetes осуществляется через JMX или посредством проброса портов (port-forward):
 
+![img.png](src/main/resources/images/visualVM.png)
+
+![img.png](src/main/resources/images/visual_Heap.png)
+
 ``` kubectl port-forward deployment/currency-release-currency-app 9010:9010 ```
 ### JMeter Result
 

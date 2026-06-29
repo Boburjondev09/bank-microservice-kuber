@@ -9,3 +9,6 @@ docker compose logs -f currency-service
 
 4. Остановить проект и очистить контейнеры (когда закончите работу):
 docker compose down
+
+5. Теперь, находясь в папке D:\OTUS\github\final_project\bank-microservice-kuber\currency-service, выполните запуск:
+docker compose up --build -d currency-service

@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import static ru.otus.currencyservice.util.ProjectStartingPoint.loggingApplicationParams;
 
+
 @SpringBootApplication
 public class CurrencyServiceApplication {
 
