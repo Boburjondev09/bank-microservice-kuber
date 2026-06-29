@@ -5,25 +5,31 @@ spring:
   application:
     name: currency-service
 
-# ------ Database config -----
+  # ------ Database config -----
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/currency_db
-    username: arm7
-    password: arm7k@fk@!
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/currency_db}
+    username: ${SPRING_DATASOURCE_USERNAME:arm7}
+    password: ${SPRING_DATASOURCE_PASSWORD:arm7k@fk@!}
+
+  # КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ: jpa должен быть на одном уровне с datasource!
   jpa:
     hibernate:
-      ddl-auto: validate
-
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:validate}
 
   liquibase:
     enabled: true
     change-log: classpath:db.changelog/changelog-master.yaml
+
 #-----------------Eureka configuration. ------------
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka/}
+  instance:
+    prefer-ip-address: true
+    hostname: ${EUREKA_INSTANCE_HOSTNAME:localhost}
+    instance-id: ${spring.application.name}:${server.port}:${random.value}
 
 spring-doc:
   api-docs:

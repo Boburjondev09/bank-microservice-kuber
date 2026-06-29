@@ -1,5 +1,5 @@
 # Currency Service (Микросервис Валют и Обменных Курсов)
-
+---
 ## Описание проекта
 Данный микросервис является частью банковской системы (**Project Bank**) и предназначен для управления справочниками стран, международных валют, а также для отслеживания и обновления их взаимных обменных курсов в режиме реального времени.
 
@@ -12,16 +12,18 @@
 ---
 
 ## Технологии и Инструменты
-
 | Компонент       | Технология / Библиотека   | Статус    |
 |-----------------|---------------------------|-----------|
 | **Язык** | Java 21                   | Used      |
-| **Фреймворк** | Spring Boot 3.x (Data JPA, Web) | Used      |
+| **Фреймворк** | Spring Boot 3.x (Data JPA, Web) | Used   |
 | **Сборка** | Maven                     | Used      |
 | **Маппинг** | MapStruct                 | Used      |
-| **Генерация кода** | Lombok                  | Used      |
+| **Генерация кода**| Lombok                  | Used      |
 | **База данных** | PostgreSQL                | Used      |
+| **Оркестрация** | Kubernetes (Docker Desktop / Kind) | Used |
+| **Менеджер пакетов** | Helm 3               | Used      |
 | **Профайлинг** | VisualVM                  | Used      |
+| **Тестирование**| JMeter                    | Used      |
 | **IDE** | IntelliJ IDEA             | Used      |
 
 ---
@@ -43,12 +45,43 @@ ru.otus.currencyservice
 └── service         # Реализация бизнес-логики (CountryService, ExchangeRateService)
     └── business    # Интерфейсы сервисного слоя
 ```
+### HELM KUBERNET CONFIGURATION: 
+
+#### Структура Helm-чарта
+```text
+deployment/helm/currency-app/
+├── Chart.yaml          # Метаданные чарта (Версия приложения: 1.0)
+├── values.yaml         # Конфигурационные параметры среды (Dev/Prod)
+└── templates/          # Манифесты Kubernetes
+├── _helpers.tpl    # Переиспользуемые именованные шаблоны
+├── configmap.yaml  # Переменные окружения для Spring Boot
+├── deployment.yaml # Описание подов приложения, ресурсов и проб
+├── service.yaml    # Внутренний балансировщик ClusterIP
+└── ingress.yaml    # Маршрутизатор внешнего трафика (currencyapp.local)
+```
+
+![img.png](src/main/resources/images/helm_config_terminal.png)
+![img.png](src/main/resources/images/kuber_ready.png)
 ---
-Контакты
-Автор: Urunov Hamdamboy
 
-Telegram: @urunovv
+### VISUAL VM Мониторинг и Производительность
 
-Компания / Продукт:  PRODUCT
+Для анализа использования ресурсов (памяти кучи, метапространства, активности потоков приложения) используется VisualVM. 
+Подключение к поду Kubernetes осуществляется через JMX или посредством проброса портов (port-forward):
 
-Дата старта: 26.06.2026
+``` kubectl port-forward deployment/currency-release-currency-app 9010:9010 ```
+### JMeter Result
+
+Стабильность и пропускная способность (Throughput) API были протестированы с использованием тестовых планов Apache JMeter:
+
+Сценарий: 100 параллельных пользователей выполняют запросы к GET /api/country/get/all в течение 5 минут.
+
+Результаты: * Среднее время ответа (Average Response Time): Укажите значение, например, 45 мс
+
+Процент ошибок (Error %): 0.00%
+-----------
+### Контакты
+ - Автор: Urunov Hamdamboy
+ - Telegram: @urunovv
+ - Компания / Продукт: OTUS PRODUCT
+ - Дата старта: 26.06.2026

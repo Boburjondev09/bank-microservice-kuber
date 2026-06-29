@@ -2,9 +2,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "helmway-app.fullname" . }}-ingress
+  name: {{ include "currency-app.fullname" . }}-ingress
   labels:
-    {{- include "helmway-app.labels" . | nindent 4 }}
+    {{- include "currency-app.labels" . | nindent 4 }}
 spec:
   ingressClassName: nginx
   rules:
@@ -15,7 +15,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ include "helmway-app.fullname" . }}
+                name: {{ include "currency-app.fullname" . }}
                 port:
                   number: {{ .Values.servicePort }}
   {{- end }}

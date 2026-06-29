@@ -1,8 +1,8 @@
-{{- define "helmway-app.name" -}}
+{{- define "currency-app.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
-{{- define "helmway-app.fullname" -}}
+{{- define "currency-app.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -15,17 +15,17 @@
 {{- end }}
 {{- end }}
 
-{{- define "helmway-app.labels" -}}
-helm.sh/chart: {{ include "helmway-app.chart" . }}
-{{ include "helmway-app.selectorLabels" . }}
+{{- define "currency-app.labels" -}}
+helm.sh/chart: {{ include "currency-app.chart" . }}
+{{ include "currency-app.selectorLabels" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
-{{- define "helmway-app.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "helmway-app.name" . }}
+{{- define "currency-app.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "currency-app.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
-{{- define "helmway-app.chart" -}}
+{{- define "currency-app.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}

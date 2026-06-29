@@ -1,0 +1,50 @@
+replicaCount: 1
+
+image:
+  repository: currency-app
+  pullPolicy: IfNotPresent
+  tag: "1.0"
+
+# Порты
+containerPort: 5001
+servicePort: 5001
+
+config:
+  APP_ENV: "dev"
+
+  # 1. Параметры подключения к PostgreSQL
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://host.docker.internal:5432/currency_db"
+  SPRING_DATASOURCE_USERNAME: "arm7"
+  SPRING_DATASOURCE_PASSWORD: "arm7k@fk@!"
+  SPRING_JPA_HIBERNATE_DDL_AUTO: "validate"
+
+  # 2. Параметры подключения к Eureka Server (используем host.docker.internal)
+  EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: "http://host.docker.internal:8761/eureka/"
+
+  # Сетевой мост: как сам под будет представляться Эврике
+  EUREKA_INSTANCE_HOSTNAME: "host.docker.internal"
+
+service:
+  type: ClusterIP
+
+ingress:
+  enabled: true
+  host: currencyapp.local
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
+
+livenessProbe:
+  path: /actuator/health
+  initialDelaySeconds: 30
+  periodSeconds: 10
+
+readinessProbe:
+  path: /actuator/health
+  initialDelaySeconds: 5
+  periodSeconds: 5

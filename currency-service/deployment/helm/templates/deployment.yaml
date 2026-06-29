@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "helmway-app.fullname" . }}
+  name: {{ include "currency-app.fullname" . }}
   labels:
-    {{- include "helmway-app.labels" . | nindent 4 }}
+    {{- include "currency-app.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "helmway-app.selectorLabels" . | nindent 6 }}
+      {{- include "currency-app.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "helmway-app.selectorLabels" . | nindent 8 }}
+        {{- include "currency-app.selectorLabels" . | nindent 8 }}
     spec:
       containers:
-        - name: helmway-app
+        - name: currency-app
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
 
@@ -24,7 +24,7 @@ spec:
 
           envFrom:
             - configMapRef:
-                name: {{ include "helmway-app.fullname" . }}-config
+                name: {{ include "currency-app.fullname" . }}-config
 
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

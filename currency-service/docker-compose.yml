@@ -1,11 +1,19 @@
-version: '3.8'
-
 services:
-  app:
-    container_name: currency-app
-    build: .
+  currency-service:
+    build:
+      context: . # Указывает на текущую папку, где находится Dockerfile
+    container_name: currency-service
     ports:
       - "5001:5001"
     environment:
-      - SPRING_PROFILES_ACTIVE=dev
-    restart: unless-stopped
+      # Подключаемся к вашему существующему контейнеру базы данных по порту на localhost
+      SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/currency_db
+      SPRING_DATASOURCE_USERNAME: arm7
+      SPRING_DATASOURCE_PASSWORD: arm7k@fk@!
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+
+      # Подключаемся к вашему существующему контейнеру Эврики
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://host.docker.internal:8761/eureka/
+      EUREKA_INSTANCE_HOSTNAME: host.docker.internal
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
