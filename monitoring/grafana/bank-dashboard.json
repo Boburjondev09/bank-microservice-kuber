@@ -1,0 +1,148 @@
+{
+  "title": "Bank Microservices Dashboard",
+  "uid": "bank-ms-dashboard",
+  "schemaVersion": 38,
+  "version": 1,
+  "refresh": "10s",
+  "time": { "from": "now-30m", "to": "now" },
+  "tags": ["bank", "microservices", "java", "spring-boot"],
+  "panels": [
+    {
+      "id": 1,
+      "type": "row",
+      "title": "Service Overview — RPS & Latency",
+      "gridPos": { "x": 0, "y": 0, "w": 24, "h": 1 }
+    },
+    {
+      "id": 2,
+      "type": "timeseries",
+      "title": "RPS per service (requests/sec)",
+      "gridPos": { "x": 0, "y": 1, "w": 12, "h": 8 },
+      "datasource": "Prometheus",
+      "targets": [
+        { "expr": "sum(rate(http_server_requests_seconds_count{application='account-service'}[1m]))", "legendFormat": "account-service" },
+        { "expr": "sum(rate(http_server_requests_seconds_count{application='currency-service'}[1m]))", "legendFormat": "currency-service" },
+        { "expr": "sum(rate(http_server_requests_seconds_count{application='exchange-service'}[1m]))", "legendFormat": "exchange-service" },
+        { "expr": "sum(rate(http_server_requests_seconds_count{application='transaction-service'}[1m]))", "legendFormat": "transaction-service" },
+        { "expr": "sum(rate(http_server_requests_seconds_count{application='notification-service'}[1m]))", "legendFormat": "notification-service" }
+      ]
+    },
+    {
+      "id": 3,
+      "type": "timeseries",
+      "title": "Latency p95 per service (ms)",
+      "gridPos": { "x": 12, "y": 1, "w": 12, "h": 8 },
+      "datasource": "Prometheus",
+      "targets": [
+        { "expr": "histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket{application='account-service'}[1m])) by (le)) * 1000", "legendFormat": "account p95" },
+        { "expr": "histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket{application='exchange-service'}[1m])) by (le)) * 1000", "legendFormat": "exchange p95" },
+        { "expr": "histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket{application='transaction-service'}[1m])) by (le)) * 1000", "legendFormat": "transaction p95" }
+      ]
+    },
+    {
+      "id": 4,
+      "type": "row",
+      "title": "Account Service — Custom Metrics",
+      "gridPos": { "x": 0, "y": 9, "w": 24, "h": 1 }
+    },
+    {
+      "id": 5,
+      "type": "stat",
+      "title": "Account Cache Size",
+      "gridPos": { "x": 0, "y": 10, "w": 4, "h": 4 },
+      "datasource": "Prometheus",
+      "targets": [{ "expr": "account_cache_size{application='account-service'}", "legendFormat": "entries" }],
+      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "background" }
+    },
+    {
+      "id": 6,
+      "type": "stat",
+      "title": "Cache Hit Rate %",
+      "gridPos": { "x": 4, "y": 10, "w": 4, "h": 4 },
+      "datasource": "Prometheus",
+      "targets": [{ "expr": "rate(account_cache_hit_total[1m]) / (rate(account_cache_hit_total[1m]) + rate(account_cache_miss_total[1m])) * 100", "legendFormat": "hit rate" }]
+    },
+    {
+      "id": 7,
+      "type": "stat",
+      "title": "Total Successful Ops",
+      "gridPos": { "x": 8, "y": 10, "w": 4, "h": 4 },
+      "datasource": "Prometheus",
+      "targets": [{ "expr": "account_operations_success_total", "legendFormat": "success" }],
+      "options": { "colorMode": "background", "thresholds": { "steps": [{ "color": "green", "value": 0 }] } }
+    },
+    {
+      "id": 8,
+      "type": "stat",
+      "title": "Total Failed Ops",
+      "gridPos": { "x": 12, "y": 10, "w": 4, "h": 4 },
+      "datasource": "Prometheus",
+      "targets": [{ "expr": "account_operations_error_total", "legendFormat": "errors" }],
+      "options": { "colorMode": "background", "thresholds": { "steps": [{ "color": "green", "value": 0 }, { "color": "red", "value": 1 }] } }
+    },
+    {
+      "id": 9,
+      "type": "stat",
+      "title": "Deposits / Withdrawals",
+      "gridPos": { "x": 16, "y": 10, "w": 8, "h": 4 },
+      "datasource": "Prometheus",
+      "targets": [
+        { "expr": "account_deposit_total", "legendFormat": "deposits" },
+        { "expr": "account_withdraw_total", "legendFormat": "withdrawals" }
+      ]
+    },
+    {
+      "id": 10,
+      "type": "timeseries",
+      "title": "Account operation latency (avg ms)",
+      "gridPos": { "x": 0, "y": 14, "w": 12, "h": 8 },
+      "datasource": "Prometheus",
+      "targets": [
+        { "expr": "rate(account_deposit_duration_seconds_sum[1m]) / rate(account_deposit_duration_seconds_count[1m]) * 1000", "legendFormat": "deposit avg ms" },
+        { "expr": "rate(account_withdraw_duration_seconds_sum[1m]) / rate(account_withdraw_duration_seconds_count[1m]) * 1000", "legendFormat": "withdraw avg ms" },
+        { "expr": "rate(account_findByNumber_duration_seconds_sum[1m]) / rate(account_findByNumber_duration_seconds_count[1m]) * 1000", "legendFormat": "findByNumber avg ms" }
+      ]
+    },
+    {
+      "id": 11,
+      "type": "timeseries",
+      "title": "Success vs Error rate (account-service)",
+      "gridPos": { "x": 12, "y": 14, "w": 12, "h": 8 },
+      "datasource": "Prometheus",
+      "targets": [
+        { "expr": "rate(account_operations_success_total[1m])", "legendFormat": "success/s" },
+        { "expr": "rate(account_operations_error_total[1m])", "legendFormat": "errors/s" }
+      ]
+    },
+    {
+      "id": 12,
+      "type": "row",
+      "title": "JVM Health",
+      "gridPos": { "x": 0, "y": 22, "w": 24, "h": 1 }
+    },
+    {
+      "id": 13,
+      "type": "timeseries",
+      "title": "JVM Heap Used (MB)",
+      "gridPos": { "x": 0, "y": 23, "w": 12, "h": 8 },
+      "datasource": "Prometheus",
+      "targets": [
+        { "expr": "jvm_memory_used_bytes{area='heap', application='account-service'} / 1024 / 1024", "legendFormat": "account heap MB" },
+        { "expr": "jvm_memory_used_bytes{area='heap', application='exchange-service'} / 1024 / 1024", "legendFormat": "exchange heap MB" },
+        { "expr": "jvm_memory_used_bytes{area='heap', application='transaction-service'} / 1024 / 1024", "legendFormat": "transaction heap MB" }
+      ]
+    },
+    {
+      "id": 14,
+      "type": "timeseries",
+      "title": "Active Threads per service",
+      "gridPos": { "x": 12, "y": 23, "w": 12, "h": 8 },
+      "datasource": "Prometheus",
+      "targets": [
+        { "expr": "jvm_threads_live_threads{application='account-service'}", "legendFormat": "account" },
+        { "expr": "jvm_threads_live_threads{application='exchange-service'}", "legendFormat": "exchange" },
+        { "expr": "jvm_threads_live_threads{application='transaction-service'}", "legendFormat": "transaction" }
+      ]
+    }
+  ]
+}

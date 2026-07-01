@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Bank Microservices - All Endpoints" enabled="true">
+      <stringProp name="TestPlan.comments">Covers all REST endpoints for account, currency, exchange, transaction, notification services via apigateway :5555</stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.tearDown_on_shutdown">true</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="GATEWAY_HOST" elementType="Argument">
+            <stringProp name="Argument.name">GATEWAY_HOST</stringProp>
+            <stringProp name="Argument.value">localhost</stringProp>
+          </elementProp>
+          <elementProp name="GATEWAY_PORT" elementType="Argument">
+            <stringProp name="Argument.name">GATEWAY_PORT</stringProp>
+            <stringProp name="Argument.value">5555</stringProp>
+          </elementProp>
+          <elementProp name="THREADS" elementType="Argument">
+            <stringProp name="Argument.name">THREADS</stringProp>
+            <stringProp name="Argument.value">10</stringProp>
+          </elementProp>
+          <elementProp name="RAMP_UP" elementType="Argument">
+            <stringProp name="Argument.name">RAMP_UP</stringProp>
+            <stringProp name="Argument.value">5</stringProp>
+          </elementProp>
+          <elementProp name="LOOP_COUNT" elementType="Argument">
+            <stringProp name="Argument.name">LOOP_COUNT</stringProp>
+            <stringProp name="Argument.value">20</stringProp>
+          </elementProp>
+        </collectionProp>
+      </elementProp>
+    </TestPlan>
+    <hashTree>
+
+      <!-- ════════════════════════════════════════
+           HTTP Header Manager (global)
+      ════════════════════════════════════════ -->
+      <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="Global Headers" enabled="true">
+        <collectionProp name="HeaderManager.headers">
+          <elementProp name="" elementType="Header">
+            <stringProp name="Header.name">Content-Type</stringProp>
+            <stringProp name="Header.value">application/json</stringProp>
+          </elementProp>
+        </collectionProp>
+      </HeaderManager>
+      <hashTree/>
+
+      <!-- ════════════════════════════════════════
+           1. ACCOUNT SERVICE
+      ════════════════════════════════════════ -->
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Account Service Tests" enabled="true">
+        <stringProp name="ThreadGroup.num_threads">${THREADS}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${RAMP_UP}</stringProp>
+        <stringProp name="ThreadGroup.duration">60</stringProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">${LOOP_COUNT}</stringProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <!-- GET all accounts -->
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /api/accounts/get/all" enabled="true">
+          <stringProp name="HTTPSampler.domain">${GATEWAY_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${GATEWAY_PORT}</stringProp>
+          <stringProp name="HTTPSampler.path">/api/accounts/get/all</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Status 200" enabled="true">
+            <collectionProp name="Asserion.test_strings"><stringProp name="49586">200</stringProp></collectionProp>
+            <intProp name="Assertion.test_type">2</intProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+          </ResponseAssertion>
+          <hashTree/>
+        </hashTree>
+
+        <!-- GET account by number -->
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /api/accounts/get/number/{no}" enabled="true">
+          <stringProp name="HTTPSampler.domain">${GATEWAY_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${GATEWAY_PORT}</stringProp>
+          <stringProp name="HTTPSampler.path">/api/accounts/get/number/UZ0001000000001</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+
+        <!-- POST create account -->
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /api/accounts/save" enabled="true">
+          <stringProp name="HTTPSampler.domain">${GATEWAY_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${GATEWAY_PORT}</stringProp>
+          <stringProp name="HTTPSampler.path">/api/accounts/save</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <stringProp name="Argument.value">{"accountNumber":"UZ${__Random(1000,9999,)}000000001","ownerName":"JMeter User","currencyCode":"USD","balance":1000.00}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+
+        <!-- POST deposit -->
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /api/accounts/deposit" enabled="true">
+          <stringProp name="HTTPSampler.domain">${GATEWAY_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${GATEWAY_PORT}</stringProp>
+          <stringProp name="HTTPSampler.path">/api/accounts/deposit?accountNumber=UZ0001000000001&amp;amount=100</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+
+        <!-- POST withdraw -->
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /api/accounts/withdraw" enabled="true">
+          <stringProp name="HTTPSampler.domain">${GATEWAY_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${GATEWAY_PORT}</stringProp>
+          <stringProp name="HTTPSampler.path">/api/accounts/withdraw?accountNumber=UZ0001000000001&amp;amount=50</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+      </hashTree>
+
+      <!-- ════════════════════════════════════════
+           2. CURRENCY SERVICE
+      ════════════════════════════════════════ -->
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Currency Service Tests" enabled="true">
+        <stringProp name="ThreadGroup.num_threads">${THREADS}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${RAMP_UP}</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">${LOOP_COUNT}</stringProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /api/currencies/get/all" enabled="true">
+          <stringProp name="HTTPSampler.domain">${GATEWAY_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${GATEWAY_PORT}</stringProp>
+          <stringProp name="HTTPSampler.path">/api/currencies/get/all</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /api/rate/exchange/get?from=USD&amp;to=UZS" enabled="true">
+          <stringProp name="HTTPSampler.domain">${GATEWAY_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${GATEWAY_PORT}</stringProp>
+          <stringProp name="HTTPSampler.path">/api/rate/exchange/get?from=USD&amp;to=UZS</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+      </hashTree>
+
+      <!-- ════════════════════════════════════════
+           3. EXCHANGE SERVICE
+      ════════════════════════════════════════ -->
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Exchange Service Tests" enabled="true">
+        <stringProp name="ThreadGroup.num_threads">${THREADS}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${RAMP_UP}</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">${LOOP_COUNT}</stringProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /api/exchange/get/all" enabled="true">
+          <stringProp name="HTTPSampler.domain">${GATEWAY_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${GATEWAY_PORT}</stringProp>
+          <stringProp name="HTTPSampler.path">/api/exchange/get/all</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /api/exchange/convert" enabled="true">
+          <stringProp name="HTTPSampler.domain">${GATEWAY_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${GATEWAY_PORT}</stringProp>
+          <stringProp name="HTTPSampler.path">/api/exchange/convert</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <stringProp name="Argument.value">{"accountNumber":"UZ0001000000002","fromCurrency":"USD","toCurrency":"UZS","amount":10.00}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+      </hashTree>
+
+      <!-- ════════════════════════════════════════
+           4. TRANSACTION SERVICE
+      ════════════════════════════════════════ -->
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Transaction Service Tests" enabled="true">
+        <stringProp name="ThreadGroup.num_threads">${THREADS}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${RAMP_UP}</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">${LOOP_COUNT}</stringProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /api/transactions/get/all" enabled="true">
+          <stringProp name="HTTPSampler.domain">${GATEWAY_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${GATEWAY_PORT}</stringProp>
+          <stringProp name="HTTPSampler.path">/api/transactions/get/all</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /api/transactions/transfer" enabled="true">
+          <stringProp name="HTTPSampler.domain">${GATEWAY_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${GATEWAY_PORT}</stringProp>
+          <stringProp name="HTTPSampler.path">/api/transactions/transfer</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <stringProp name="Argument.value">{"senderAccountNumber":"UZ0001000000001","receiverAccountNumber":"UZ0001000000002","amount":50.00,"currencyCode":"USD","description":"JMeter transfer test"}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /api/transactions/deposit" enabled="true">
+          <stringProp name="HTTPSampler.domain">${GATEWAY_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${GATEWAY_PORT}</stringProp>
+          <stringProp name="HTTPSampler.path">/api/transactions/deposit</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <stringProp name="Argument.value">{"receiverAccountNumber":"UZ0001000000003","amount":100.00,"currencyCode":"EUR","description":"JMeter deposit test"}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+      </hashTree>
+
+      <!-- ════════════════════════════════════════
+           5. NOTIFICATION SERVICE
+      ════════════════════════════════════════ -->
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Notification Service Tests" enabled="true">
+        <stringProp name="ThreadGroup.num_threads">${THREADS}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${RAMP_UP}</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">${LOOP_COUNT}</stringProp>
+        </elementProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="GET /api/notifications/get/all" enabled="true">
+          <stringProp name="HTTPSampler.domain">${GATEWAY_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${GATEWAY_PORT}</stringProp>
+          <stringProp name="HTTPSampler.path">/api/notifications/get/all</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /api/notifications/send/email" enabled="true">
+          <stringProp name="HTTPSampler.domain">${GATEWAY_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${GATEWAY_PORT}</stringProp>
+          <stringProp name="HTTPSampler.path">/api/notifications/send/email</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <stringProp name="Argument.value">{"recipient":"test@example.com","subject":"JMeter Test","body":"Load test notification","referenceId":"jmeter-001"}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /api/notifications/send/sms" enabled="true">
+          <stringProp name="HTTPSampler.domain">${GATEWAY_HOST}</stringProp>
+          <stringProp name="HTTPSampler.port">${GATEWAY_PORT}</stringProp>
+          <stringProp name="HTTPSampler.path">/api/notifications/send/sms</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <stringProp name="Argument.value">{"recipient":"+998901234567","subject":"SMS Test","body":"JMeter SMS test","referenceId":"jmeter-002"}</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+        </HTTPSamplerProxy>
+        <hashTree/>
+      </hashTree>
+
+      <!-- ════════════════════════════════════════
+           LISTENERS
+      ════════════════════════════════════════ -->
+      <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Summary Report" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp><name>saveConfig</name><value class="SampleSaveConfiguration">
+          <time>true</time><latency>true</latency><timestamp>true</timestamp>
+          <success>true</success><label>true</label><code>true</code>
+          <message>true</message><threadName>true</threadName>
+          <dataType>true</dataType><encoding>false</encoding>
+          <assertions>true</assertions><subresults>true</subresults>
+          <responseData>false</responseData><samplerData>false</samplerData>
+          <responseHeaders>false</responseHeaders><requestHeaders>false</requestHeaders>
+          <responseDataOnError>false</responseDataOnError>
+          <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+          <bytes>true</bytes><sentBytes>true</sentBytes><url>true</url>
+          <threadCounts>true</threadCounts><idleTime>true</idleTime><connectTime>true</connectTime>
+        </value></objProp>
+        <stringProp name="filename">jmeter/results/bank-api-results.jtl</stringProp>
+      </ResultCollector>
+      <hashTree/>
+
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp><name>saveConfig</name><value class="SampleSaveConfiguration">
+          <time>true</time><latency>true</latency><timestamp>true</timestamp>
+          <success>true</success><label>true</label><code>true</code>
+        </value></objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
