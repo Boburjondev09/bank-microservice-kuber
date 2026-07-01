@@ -21,7 +21,6 @@
 - [Eureka Service Discovery](#-eureka-service-discovery)
 - [API маршруты (Gateway)](#-api-маршруты-gateway)
 - [Структура проекта](#-структура-проекта)
-- [Скриншоты](#-скриншоты)
 - [Авторы](#-авторы)
 ---
 ## Архитектура 
@@ -283,9 +282,6 @@ bank-microservice-kuber/
 ```
 
 ---
-
-## 📸 Скриншоты
-
 ### Архитектура
 ![Architecture](currency-service/src/main/resources/images/bank_microservice_kuber_architecture.png)
 
