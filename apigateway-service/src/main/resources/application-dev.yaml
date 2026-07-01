@@ -1,62 +1,69 @@
+server:
+  port: 5555
 spring:
   application:
     name: apigateway-service
 
-  # 1. Enforce the reactive runtime environment for the gateway
-  main:
-    web-application-type: reactive
-
   cloud:
-    config:
-      enabled: false
-
-    # 2. Automatically create routes for services registered in Eureka
     gateway:
       discovery:
         locator:
           enabled: true
           lower-case-service-id: true
 
-# 3. Keep Feign timeout configurations if you have a custom fallback client
-feign:
-  client:
-    config:
-      my-client:
-        connectTimeout: 10000
-        readTimeout: 300000
+      routes:
 
-# 4. Fallback default zone targeting localhost for local host machine runs
+        # ─── account-service ───────────────────────────────────────────────
+        - id: account-service
+          uri: lb://account-service
+          predicates:
+            - Path=/api/accounts/**
+          filters:
+            - RewritePath=/api/accounts/(?<segment>.*), /api/accounts/${segment}
+            - AddRequestHeader=X-Source, api-gateway
+
+        # ─── currency-service ──────────────────────────────────────────────
+        - id: currency-service
+          uri: lb://currency-service
+          predicates:
+            - Path=/api/currencies/**, /api/rate/**
+          filters:
+            - AddRequestHeader=X-Source, api-gateway
+
+        # ─── exchange-service ──────────────────────────────────────────────
+        - id: exchange-service
+          uri: lb://exchange-service
+          predicates:
+            - Path=/api/exchange/**
+          filters:
+            - AddRequestHeader=X-Source, api-gateway
+
+        # ─── transaction-service ───────────────────────────────────────────
+        - id: transaction-service
+          uri: lb://transaction-service
+          predicates:
+            - Path=/api/transactions/**
+          filters:
+            - AddRequestHeader=X-Source, api-gateway
+
+        # ─── notification-service ──────────────────────────────────────────
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/api/notifications/**
+          filters:
+            - AddRequestHeader=X-Source, api-gateway
+
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka/}
+  instance:
+    prefer-ip-address: true
+    hostname: ${EUREKA_INSTANCE_HOSTNAME:localhost}
+    instance-id: ${spring.application.name}:${server.port}:${random.value}
 
-# 5. Fixed tracking / Micrometer metrics for Grafana dashboard integration
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "health,info,prometheus,metrics" # Secure fallback instead of exposing everything via *
-  endpoint:
-    prometheus:
-      enabled: true
-    health:
-      show-details: always
-  tracing:
-    sampling:
-      probability: 1.0
-
-server:
-  port: 5555
-
----
-# 6. Profile specific override for Dockerized environment deployments
-spring:
-  config:
-    activate:
-      on-profile: docker
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://eureka-server:8761/eureka/
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    reactor.netty: INFO

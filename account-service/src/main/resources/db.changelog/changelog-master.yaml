@@ -4,7 +4,7 @@ databaseChangeLog:
       author: urunov
       changes:
         - sqlFile:
-            path: db.changelog/001-create-tables.sql # Changed / to .
+            path: db.changelog/001-create-tables.sql
             relativeToChangelogFile: false
 
   - changeSet:
@@ -12,5 +12,5 @@ databaseChangeLog:
       author: urunov
       changes:
         - sqlFile:
-            path: db.changelog/002-insert-reference-data.sql # Changed / to .
+            path: db.changelog/002-insert-reference-data.sql
             relativeToChangelogFile: false

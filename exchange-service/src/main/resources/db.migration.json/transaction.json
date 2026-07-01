@@ -1,0 +1,62 @@
+[
+  {
+    "referenceNumber": "TXN-2026-0001",
+    "senderAccountNumber": "ACC-UZ-998123",
+    "receiverAccountNumber": "ACC-UZ-998456",
+    "amount": 1500000.00,
+    "currencyCode": "UZS",
+    "type": "TRANSFER",
+    "status": "COMPLETED",
+    "description": "Перевод другу на карту",
+    "createdAt": "2026-07-01T10:15:30",
+    "updatedAt": "2026-07-01T10:16:00"
+  },
+  {
+    "referenceNumber": "TXN-2026-0002",
+    "senderAccountNumber": "SYSTEM_ATM_04",
+    "receiverAccountNumber": "ACC-UZ-998123",
+    "amount": 500.00,
+    "currencyCode": "USD",
+    "type": "DEPOSIT",
+    "status": "COMPLETED",
+    "description": "Пополнение счета наличными через банкомат",
+    "createdAt": "2026-07-01T11:00:00",
+    "updatedAt": "2026-07-01T11:00:15"
+  },
+  {
+    "referenceNumber": "TXN-2026-0003",
+    "senderAccountNumber": "ACC-DE-112233",
+    "receiverAccountNumber": "MERCHANT-STEAM-EU",
+    "amount": 59.99,
+    "currencyCode": "EUR",
+    "type": "PAYMENT",
+    "status": "PENDING",
+    "description": "Оплата онлайн-покупки в магазине",
+    "createdAt": "2026-07-01T11:30:00",
+    "updatedAt": "2026-07-01T11:30:00"
+  },
+  {
+    "referenceNumber": "TXN-2026-0004",
+    "senderAccountNumber": "ACC-RU-776655",
+    "receiverAccountNumber": "ACC-UZ-998777",
+    "amount": 12500.00,
+    "currencyCode": "RUB",
+    "type": "TRANSFER",
+    "status": "FAILED",
+    "description": "Ошибка перевода: превышен суточный лимит отправлений",
+    "createdAt": "2026-07-01T09:45:12",
+    "updatedAt": "2026-07-01T09:45:15"
+  },
+  {
+    "referenceNumber": "TXN-2026-0005",
+    "senderAccountNumber": "ACC-UZ-998456",
+    "receiverAccountNumber": "SYSTEM_CASH_OUT",
+    "amount": 450.00,
+    "currencyCode": "USD",
+    "type": "WITHDRAWAL",
+    "status": "REVERSED",
+    "description": "Снятие наличных отменено (сбой выдачи купюр в терминале)",
+    "createdAt": "2026-07-01T08:20:00",
+    "updatedAt": "2026-07-01T08:22:10"
+  }
+]
