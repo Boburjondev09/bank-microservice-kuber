@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001
+      author: urunov
+      changes:
+        - sqlFile:
+            path: db.changelog/001-create-tables.sql # Changed / to .
+            relativeToChangelogFile: false
+
+  - changeSet:
+      id: 002
+      author: urunov
+      changes:
+        - sqlFile:
+            path: db.changelog/002-insert-reference-data.sql # Changed / to .
+            relativeToChangelogFile: false

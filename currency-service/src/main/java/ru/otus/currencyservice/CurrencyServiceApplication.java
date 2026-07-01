@@ -2,6 +2,7 @@ package ru.otus.currencyservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 import static ru.otus.currencyservice.util.ProjectStartingPoint.loggingApplicationParams;
 

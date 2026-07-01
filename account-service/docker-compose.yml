@@ -1,0 +1,16 @@
+services:
+  account-service:
+    build:
+      context: .
+    container_name: account-service
+    ports:
+      - "5002:5002"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/account_db
+      SPRING_DATASOURCE_USERNAME: arm7
+      SPRING_DATASOURCE_PASSWORD: arm7k@fk@!
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://host.docker.internal:8761/eureka/
+      EUREKA_INSTANCE_HOSTNAME: host.docker.internal
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

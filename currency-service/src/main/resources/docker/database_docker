@@ -1,0 +1,9 @@
+1. Логин на container using arm7
+docker exec -it postgredb-service psql -U arm7 -d postgres
+
+2. CREATE DATABASE currency_db;
+
+3. -- Connect to the new database
+   \c currency_db
+
+4. GRANT ALL ON SCHEMA public TO arm7;

@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-transaction-init
+      author: urunov
+      changes:
+        - sqlFile:
+            path: db.changelog/001-create-tables.sql
+            relativeToChangelogFile: false
+
+  - changeSet:
+      id: 002
+      author: urunov
+      changes:
+        - sqlFile:
+            path: db.changelog/002-insert-data.sql
+            relativeToChangelogFile: false

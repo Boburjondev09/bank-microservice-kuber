@@ -1,4 +1,4 @@
-package util;
+package ru.otus.accountservice.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

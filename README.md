@@ -12,3 +12,4 @@
  У каждый сервис, вероятно, работает как отдельное развертывание + сервис внутри кластера, с межсервисным взаимодействием через внутренний DNS (например, currency-service:5001). 
 Брокер сообщений, такой как Kafka или RabbitMQ, позволил бы отделить потоки, управляемые событиями (особенно уведомления).
 
+![bank_microservice_kuber_architecture.png](currency-service/src/main/resources/images/bank_microservice_kuber_architecture.png)

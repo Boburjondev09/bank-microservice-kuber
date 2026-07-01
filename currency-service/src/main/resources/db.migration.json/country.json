@@ -1,0 +1,62 @@
+[
+  {
+    "iso2": "US",
+    "iso3": "USA",
+    "name": "United States",
+    "currency": { "code": "USD" }
+  },
+  {
+    "iso2": "DE",
+    "iso3": "DEU",
+    "name": "Germany",
+    "currency": { "code": "EUR" }
+  },
+  {
+    "iso2": "UZ",
+    "iso3": "UZB",
+    "name": "Uzbekistan",
+    "currency": { "code": "UZS" }
+  },
+  {
+    "iso2": "GB",
+    "iso3": "GBR",
+    "name": "United Kingdom",
+    "currency": { "code": "GBP" }
+  },
+  {
+    "iso2": "RU",
+    "iso3": "RUS",
+    "name": "Russia",
+    "currency": { "code": "RUB" }
+  },
+  {
+    "iso2": "KZ",
+    "iso3": "KAZ",
+    "name": "Kazakhstan",
+    "currency": { "code": "KZT" }
+  },
+  {
+    "iso2": "TR",
+    "iso3": "TUR",
+    "name": "Turkey",
+    "currency": { "code": "TRY" }
+  },
+  {
+    "iso2": "AE",
+    "iso3": "ARE",
+    "name": "United Arab Emirates",
+    "currency": { "code": "AED" }
+  },
+  {
+    "iso2": "JP",
+    "iso3": "JPN",
+    "name": "Japan",
+    "currency": { "code": "JPY" }
+  },
+  {
+    "iso2": "CH",
+    "iso3": "CHE",
+    "name": "Switzerland",
+    "currency": { "code": "CHF" }
+  }
+]

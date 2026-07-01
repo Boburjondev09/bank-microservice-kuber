@@ -12,7 +12,7 @@ spring:
     username: ${SPRING_DATASOURCE_USERNAME:arm7}
     password: ${SPRING_DATASOURCE_PASSWORD:arm7k@fk@!}
 
-  # КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ: jpa должен быть на одном уровне с datasource!
+
   jpa:
     hibernate:
       ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:validate}
